@@ -59,6 +59,7 @@ This Python script processes log files to extract user identifiers (userCode and
 
 
 ### 📊 Flowchart
+
 ![8Dj3Iv3LAH](https://github.com/PKHarsimran/LogUserExtractor/assets/22066581/d98cbb19-e763-4479-a2d5-ad29011d3aca)
 
 1. **Start**
