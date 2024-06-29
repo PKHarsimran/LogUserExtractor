@@ -24,7 +24,7 @@ This Python script processes log files to extract user identifiers (userCode and
 2. **Navigate to the project directory:**
 
     ```sh
-    cd log-user-extractor
+    cd LogUserExtractor
     ```
 
 3. **Install the required Python packages:**
