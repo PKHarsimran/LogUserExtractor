@@ -56,6 +56,6 @@ To help ensure the security of your deployment, please follow these best practic
 
 ## Contact
 
-If you have any questions or concerns about the security of the Log User Extractor project, please contact us at [security@yourdomain.com](mailto:security@yourdomain.com).
+If you have any questions or concerns about the security of the Log User Extractor project, please contact us at [harsimransidhu770@gmail.com](mailto:harsimransidhu770@gmail.com).
 
 Thank you for helping to keep Log User Extractor secure!
