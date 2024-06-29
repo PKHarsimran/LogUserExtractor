@@ -83,6 +83,8 @@ This Python script processes log files to extract user identifiers (userCode and
    - Save the DataFrame to a CSV file.
 6. **End**
 
+---
+
 ### 🎉 Planned Improvements
 
 I'm excited to share some planned improvements for the Log User Extractor script to make it smarter and more efficient! Here are the top 3 enhancements I'm working on:
@@ -97,6 +99,7 @@ I'm excited to share some planned improvements for the Log User Extractor script
    - Making the script more flexible by allowing users to specify parameters such as file patterns, output file names, and log levels via a configuration file or command-line arguments.
 
 Stay tuned for these updates, which will make the Log User Extractor even more powerful and user-friendly!
+
 
 ## 🤝 Contributing
 
