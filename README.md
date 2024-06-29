@@ -18,7 +18,7 @@ This Python script processes log files to extract user identifiers (userCode and
 1. **Clone the repository:**
 
     ```sh
-    git clone https://github.com/PKHarsimran/LogUserExtractor/blob/main/log_user_extractor.py
+    git clone https://github.com/PKHarsimran/LogUserExtractor
     ```
 
 2. **Navigate to the project directory:**
