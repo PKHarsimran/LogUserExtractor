@@ -41,9 +41,9 @@ This Python script processes log files to extract user identifiers (userCode and
 
     ```python
     log_directories = [
-        r"path_to_your_logs\log01",  # Replace with your actual directory path
-        r"path_to_your_logs\log02",  # Replace with your actual directory path
-        r"path_to_your_logs\log03"   # Replace with your actual directory path
+        r"path_to_your_logs\log01.log",  # Replace with your actual directory path
+        r"path_to_your_logs\log02.log",  # Replace with your actual directory path
+        r"path_to_your_logs\log03.log"   # Replace with your actual directory path
     ]
     ```
 
