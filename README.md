@@ -57,6 +57,23 @@ This Python script processes log files to extract user identifiers (userCode and
 
     The script will create a CSV file named `extracted_user_codes.csv` with the unique user identifiers.
 
+
+## 📊 Flowchart
+![output](https://github.com/PKHarsimran/LogUserExtractor/assets/22066581/af707e16-48cd-4467-b954-cb07589a682c)
+
+1. **Start**
+2. **Initialize LogProcessor with directories**
+3. **Process log files**
+    - For each directory:
+        - List files
+        - For each file:
+            - Check if the file is a `.log` file
+            - If true, read the file line by line
+            - Extract `userCode` and `userId` from each line
+4. **Save unique identifiers to CSV file**
+5. **End**
+
+
 ## 🤝 Contributing
 
 1. 🍴 Fork the repository.
