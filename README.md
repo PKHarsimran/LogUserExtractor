@@ -57,6 +57,7 @@ This Python script processes log files to extract user identifiers (userCode and
 
     The script will create a CSV file named `extracted_user_codes.csv` with the unique user identifiers.
 
+---
 
 ### 📊 Flowchart
 
