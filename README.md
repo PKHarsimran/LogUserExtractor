@@ -96,6 +96,11 @@ I'm excited to share some planned improvements for the Log User Extractor script
 
 Stay tuned for these updates, which will make the Log User Extractor even more powerful and user-friendly!
 
+### Parallel Processing in Log User Extractor
+
+Why Parallel Processing?
+- The primary reason for implementing parallel processing is to improve the efficiency and performance of the Log User Extractor script. Processing large numbers of log files sequentially can be time-consuming and inefficient. By utilizing parallel processing, we can handle multiple log files simultaneously, significantly reducing the total processing time.
+
 
 ## 🤝 Contributing
 
