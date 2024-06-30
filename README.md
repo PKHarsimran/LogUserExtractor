@@ -81,25 +81,35 @@ This Python script processes log files to extract user identifiers (userCode and
    - Save the DataFrame to a CSV file.
 6. **End**
 
-## 🎉 Planned Improvements
+## 🚀 Recent and Planned Improvements
 
-I'm excited to share some planned improvements for the Log User Extractor script to make it smarter and more efficient! Here are the top 3 enhancements I'm working on:
+We're excited to share the latest updates and upcoming enhancements for the Log User Extractor script. These changes are designed to make the script smarter, faster, and more user-friendly!
+
+### 🎉 Recently Implemented
 
 1. **⚡ Parallel Processing**
-   - Implementing parallel processing to handle multiple files simultaneously, which will significantly speed up the log processing.
+   - **Status:** Implemented
+   - **Details:** We've introduced parallel processing to handle multiple log files simultaneously. This enhancement significantly reduces the time required to process large datasets, making the script more efficient and scalable.
+
+### 🔧 Planned Improvements
 
 2. **🔧 Enhanced Error Handling and Logging**
-   - Adding robust error handling and logging to keep track of the processing status and any issues that arise, ensuring better monitoring and easier debugging.
+   - **Status:** Planned
+   - **Details:** We're working on adding robust error handling and logging mechanisms to track processing status and any issues that arise. This will improve monitoring, debugging, and overall reliability of the script.
 
 3. **⚙️ Configurable Parameters**
-   - Making the script more flexible by allowing users to specify parameters such as file patterns, output file names, and log levels via a configuration file or command-line arguments.
+   - **Status:** Planned
+   - **Details:** Future updates will introduce configurable parameters, allowing users to specify options such as file patterns, output file names, and log levels through a configuration file or command-line arguments. This will provide greater flexibility and customization for users.
 
-Stay tuned for these updates, which will make the Log User Extractor even more powerful and user-friendly!
+### 📈 Progress Tracking
 
-### Parallel Processing in Log User Extractor
+We believe in transparency and continuous improvement. Here's a snapshot of our progress:
 
-Why Parallel Processing?
-- The primary reason for implementing parallel processing is to improve the efficiency and performance of the Log User Extractor script. Processing large numbers of log files sequentially can be time-consuming and inefficient. By utilizing parallel processing, we can handle multiple log files simultaneously, significantly reducing the total processing time.
+- **Parallel Processing:** ✅ Completed
+- **Enhanced Error Handling and Logging:** ⏳ In Progress
+- **Configurable Parameters:** ⏳ In Progress
+
+Stay tuned for more updates as we continue to enhance the Log User Extractor. Your feedback and contributions are always welcome!
 
 
 ## 🤝 Contributing
