@@ -1,0 +1,5 @@
+2024-03-20 20:04:49.482 CRM-WEB [WARN] userCode=mestrada, userId=1001 used: 969ms (URI: /AUI/login.html) [Locale:en_US][Host:10.51.1.227][Method:POST][URL:http://aui.intra-apps.com/AUI/login.html]
+2024-03-20 20:05:49.482 CRM-WEB [WARN] userCode=ajones, userId=1002 used: 1050ms (URI: /AUI/home.html) [Locale:en_US][Host:10.51.1.228][Method:GET][URL:http://aui.intra-apps.com/AUI/home.html]
+2024-03-20 20:06:49.482 CRM-WEB [WARN] userCode=kwilliams, userId=1003 used: 1120ms (URI: /AUI/profile.html) [Locale:en_US][Host:10.51.1.229][Method:POST][URL:http://aui.intra-apps.com/AUI/profile.html]
+2024-03-20 20:07:49.482 CRM-WEB [WARN] userCode=dsmith, userId=1004 used: 980ms (URI: /AUI/settings.html) [Locale:en_US][Host:10.51.1.230][Method:POST][URL:http://aui.intra-apps.com/AUI/settings.html]
+2024-03-20 20:08:49.482 CRM-WEB [WARN] userCode=rjohnson, userId=1005 used: 1000ms (URI: /AUI/logout.html) [Locale:en_US][Host:10.51.1.231][Method:GET][URL:http://aui.intra-apps.com/AUI/logout.html]
