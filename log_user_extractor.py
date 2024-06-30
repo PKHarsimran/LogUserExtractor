@@ -1,6 +1,7 @@
 import os  # Module to interact with the operating system
 import re  # Module for regular expressions
 import pandas as pd  # Module for data manipulation and analysis
+from concurrent.futures import ThreadPoolExecutor  # Module for parallel processing
 
 class LogProcessor:
     def __init__(self, directories):
@@ -20,11 +21,17 @@ class LogProcessor:
         """
         Process each log file in the specified directories to extract user identifiers.
         """
-        for directory in self.directories:
-            for filename in os.listdir(directory):  # List files in the directory
-                if filename.endswith(".log"):  # Check if the file is a log file
-                    filepath = os.path.join(directory, filename)  # Full path to the log file
-                    self._process_single_file(filepath)
+        with ThreadPoolExecutor() as executor:
+            futures = []
+            for directory in self.directories:
+                for filename in os.listdir(directory):  # List files in the directory
+                    if filename.endswith(".log"):  # Check if the file is a log file
+                        filepath = os.path.join(directory, filename)  # Full path to the log file
+                        futures.append(executor.submit(self._process_single_file, filepath))
+            
+            # Ensure all threads have completed
+            for future in futures:
+                future.result()
 
     def _process_single_file(self, filepath):
         """
@@ -65,9 +72,7 @@ class LogProcessor:
 
 # Example paths to the directories containing log files
 log_directories = [
-    r"path_to_your_logs\log01",  # Replace with your actual directory path
-    r"path_to_your_logs\log02",  # Replace with your actual directory path
-    r"path_to_your_logs\log03"   # Replace with your actual directory path
+    r"test",  # Replace with your actual directory path
 ]
 
 # Output CSV file path
