@@ -88,6 +88,10 @@ def main():
     config = configparser.ConfigParser()
     config.read('config.ini')
 
+    # Ensure output directory exists
+    output_dir = os.path.dirname(config['Paths']['output_csv'])
+    os.makedirs(output_dir, exist_ok=True)
+
     # Configure logging
     logging.basicConfig(
         filename=config['Logging']['log_filename'],
