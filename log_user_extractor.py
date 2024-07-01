@@ -3,29 +3,36 @@ import re  # Module for regular expressions
 import pandas as pd  # Module for data manipulation and analysis
 from concurrent.futures import ThreadPoolExecutor  # Module for parallel processing
 import logging  # Module for logging
+import configparser  # Module for configuration file parsing
 
-# Configure logging to save logs to a file
+# Load configuration
+config = configparser.ConfigParser()
+config.read('config.ini')  # Configuration file name
+
+# Configure logging
 logging.basicConfig(
-    filename='log_user_extractor.log',  # Log file name
-    level=logging.INFO,  # Log level
+    filename=config['Logging']['log_filename'],  # Log file name from configuration
+    level=getattr(logging, config['Logging']['log_level'].upper(), logging.INFO),  # Log level from configuration
     format='%(asctime)s - %(levelname)s - %(message)s',  # Log message format
     filemode='w'  # Overwrite log file each time the script runs
 )
 
 class LogProcessor:
-    def __init__(self, directories):
+    def __init__(self, directories, file_pattern):
         """
-        Initialize the LogProcessor with directories to scan for log files.
+        Initialize the LogProcessor with directories to scan for log files and file pattern to match.
         :param directories: List of directories containing log files.
+        :param file_pattern: Pattern to match log files.
         """
         self.directories = directories  # Directories to search for log files
+        self.file_pattern = file_pattern  # File pattern to match
         # Regular expression to find userCode patterns in the logs
         self.user_code_pattern = re.compile(r"userCode=(\w+)")
         # Regular expression to find userId patterns in the logs
         self.user_id_pattern = re.compile(r'"userId":"(\w+)"')
         # Set to store unique user identifiers (userCode or userId)
         self.user_codes = set()
-        logging.info('LogProcessor initialized with directories: %s', directories)
+        logging.info('LogProcessor initialized with directories: %s and file pattern: %s', directories, file_pattern)
 
     def process_log_files(self):
         """
@@ -36,7 +43,7 @@ class LogProcessor:
             for directory in self.directories:
                 logging.info('Processing directory: %s', directory)  # Log the directory being processed
                 for filename in os.listdir(directory):  # List files in the directory
-                    if filename.endswith(".log"):  # Check if the file is a log file
+                    if re.match(self.file_pattern, filename):  # Check if the file matches the pattern
                         filepath = os.path.join(directory, filename)  # Full path to the log file
                         logging.info('Submitting file for processing: %s', filepath)  # Log file submission
                         futures.append(executor.submit(self._process_single_file, filepath))  # Submit file for processing
@@ -90,12 +97,12 @@ class LogProcessor:
         except Exception as e:
             logging.error('Error saving data to CSV: %s', e)  # Log any errors that occur
 
-# Example paths to the directories containing log files
-log_directories = ["test"]  # Replace with your actual directory path
-# Output CSV file path
-csv_path = "extracted_user_codes.csv"
+# Load parameters from the configuration file
+log_directories = config['Paths']['log_directories'].split(',')  # Directories containing log files
+file_pattern = config['Settings']['file_pattern']  # File pattern to match log files
+csv_path = config['Paths']['output_csv']  # Output CSV file path
 
 # Create an instance of LogProcessor and process the log files
-log_processor = LogProcessor(log_directories)
+log_processor = LogProcessor(log_directories, file_pattern)
 log_processor.process_log_files()
 log_processor.save_to_csv(csv_path)
