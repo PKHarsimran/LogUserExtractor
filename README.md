@@ -95,10 +95,8 @@ We're excited to share the latest updates and upcoming enhancements for the Log 
    - **Status:** Implemented
    - **Details:** We're working on adding robust error handling and logging mechanisms to track processing status and any issues that arise. This will improve monitoring, debugging, and overall reliability of the script.
 
-### 🔧 Planned Improvements
-
 3. **⚙️ Configurable Parameters**
-   - **Status:** Planned
+   - **Status:** Implemented
    - **Details:** Future updates will introduce configurable parameters, allowing users to specify options such as file patterns, output file names, and log levels through a configuration file or command-line arguments. This will provide greater flexibility and customization for users.
 
 ### 📈 Progress Tracking
@@ -107,7 +105,7 @@ We believe in transparency and continuous improvement. Here's a snapshot of our 
 
 - **Parallel Processing:** ✅ Completed
 - **Enhanced Error Handling and Logging:** ✅ Completed
-- **Configurable Parameters:** ⏳ In Progress
+- **Configurable Parameters:** ✅ Completed
 
 Stay tuned for more updates as we continue to enhance the Log User Extractor. Your feedback and contributions are always welcome!
 
