@@ -1,0 +1,40 @@
+name: Build and Run Docker Image
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          push: true
+          tags: ${{ secrets.DOCKER_USERNAME }}/log_user_extractor:latest
+
+      - name: Run Docker container
+        run: |
+          docker run --rm -v ${{ github.workspace }}:/app ${{ secrets.DOCKER_USERNAME }}/log_user_extractor:latest
+          cat /app/output/extracted_user_codes.csv
+        env:
+          GITHUB_WORKSPACE: ${{ github.workspace }}

@@ -10,5 +10,8 @@ COPY . /app
 # Install any needed packages specified in requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Run log_user_extractor.py when the container launches
-CMD ["python", "log_user_extractor.py"]
+# Create output directory
+RUN mkdir -p /app/output
+
+# Run run_in_docker.py when the container launches
+CMD ["python", "run_in_docker.py"]
