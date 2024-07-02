@@ -23,6 +23,7 @@ class LogProcessor:
         """
         Process each log file in the specified directories to extract user identifiers.
         """
+        logging.info('Starting to process log files...')
         with ThreadPoolExecutor() as executor:
             futures = [
                 executor.submit(self._process_single_file, os.path.join(directory, filename))
@@ -44,6 +45,7 @@ class LogProcessor:
         """
         line_count = 0
         try:
+            logging.info('Processing file: %s', filepath)
             with open(filepath, 'r', errors='ignore') as file:
                 for line in file:
                     self._extract_user_identifiers(line)
@@ -73,6 +75,7 @@ class LogProcessor:
         :param output_path: Path to save the output CSV file.
         """
         try:
+            logging.info('Saving data to CSV: %s', output_path)
             df = pd.DataFrame(list(self.user_codes), columns=["userIdentifier"])
             df.to_csv(output_path, index=False)
             logging.info('Data saved to %s', output_path)
@@ -100,10 +103,16 @@ def main():
         filemode='w'
     )
 
+    logging.info('Configuration and logging set up.')
+
     # Read configuration settings
     log_directories = config['Paths']['log_directories'].split(',')
     file_pattern = config['Settings']['file_pattern']
     csv_path = config['Paths']['output_csv']
+
+    logging.info('Log directories: %s', log_directories)
+    logging.info('File pattern: %s', file_pattern)
+    logging.info('CSV output path: %s', csv_path)
 
     # Initialize and run log processor
     log_processor = LogProcessor(log_directories, file_pattern)
