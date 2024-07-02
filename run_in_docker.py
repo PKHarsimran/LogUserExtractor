@@ -4,6 +4,7 @@ import re  # Module for regular expressions
 import pandas as pd  # Module for data manipulation and analysis
 from concurrent.futures import ThreadPoolExecutor  # Module for parallel processing
 import logging  # Module for logging
+import argparse  # Module for command-line argument parsing
 
 class LogProcessor:
     def __init__(self, directories, file_pattern):
@@ -28,9 +29,11 @@ class LogProcessor:
             futures = [
                 executor.submit(self._process_single_file, os.path.join(directory, filename))
                 for directory in self.directories
+                if os.path.exists(directory)
                 for filename in os.listdir(directory)
                 if self.file_pattern.match(filename)
             ]
+            logging.info('Submitted %d files for processing', len(futures))
 
             for future in futures:
                 try:
@@ -83,47 +86,86 @@ class LogProcessor:
         except Exception as e:
             logging.error('Error saving data to CSV: %s', e)
 
+def setup_logging(log_file_path, log_level):
+    """
+    Configure logging settings.
+    :param log_file_path: Path to the log file.
+    :param log_level: Logging level.
+    """
+    logging.basicConfig(
+        filename=log_file_path,
+        level=getattr(logging, log_level.upper(), logging.INFO),
+        format='%(asctime)s - %(levelname)s - %(message)s',
+        filemode='w'
+    )
+    logging.info('Logging set up with log file: %s and log level: %s', log_file_path, log_level)
+
+def load_config(config_file):
+    """
+    Load configuration settings from a file.
+    :param config_file: Path to the configuration file.
+    :return: ConfigParser object with loaded settings.
+    """
+    config = configparser.ConfigParser()
+    config.read(config_file)
+    return config
+
 def main():
     """
     Main function to set up configuration, logging, and run the log processing.
     """
-    # Load configuration
-    config = configparser.ConfigParser()
-    config.read('config.ini')
+    parser = argparse.ArgumentParser(description="Log User Extractor")
+    parser.add_argument('--config', help='Path to the configuration file', default='config.ini')
 
-    # Ensure output directory exists
-    output_dir = os.path.dirname(config['Paths']['output_csv'])
-    os.makedirs(output_dir, exist_ok=True)
+    args = parser.parse_args()
+    config_file = args.config
 
-    # Configure logging
-    logging.basicConfig(
-        filename=config['Logging']['log_filename'],
-        level=getattr(logging, config['Logging']['log_level'].upper(), logging.INFO),
-        format='%(asctime)s - %(levelname)s - %(message)s',
-        filemode='w'
-    )
+    while True:
+        print("\nOptions:")
+        print("1. Read from config")
+        print("2. Enter new directories, file pattern, output CSV path, and log file path")
+        print("3. Exit")
+        choice = input("Choose an option: ")
 
-    logging.info('Configuration and logging set up.')
+        if choice == '1':
+            config = load_config(config_file)
+            log_directories = config['Paths']['log_directories'].split(',')
+            file_pattern = config['Settings']['file_pattern']
+            output_csv_path = config['Paths']['output_csv']
+            log_file_path = config['Logging']['log_filename']
+            log_level = config['Logging']['log_level']
+            print(f"Configuration loaded from {config_file}.")
+        elif choice == '2':
+            log_directories = input("Enter directories (comma-separated): ").split(',')
+            file_pattern = input("Enter file pattern: ")
+            output_csv_path = input("Enter output CSV path: ")
+            log_file_path = input("Enter log file path: ")
+            log_level = input("Enter log level: ")
+            print("Configuration set.")
+        elif choice == '3':
+            print("Exiting...")
+            break
+        else:
+            print("Invalid choice. Please select a valid option.")
+            continue
 
-    # Read configuration settings
-    log_directories = config['Paths']['log_directories'].split(',')
-    file_pattern = config['Settings']['file_pattern']
-    csv_path = config['Paths']['output_csv']
+        setup_logging(log_file_path, log_level)
 
-    logging.info('Log directories: %s', log_directories)
-    logging.info('File pattern: %s', file_pattern)
-    logging.info('CSV output path: %s', csv_path)
+        logging.info('Log directories: %s', log_directories)
+        logging.info('File pattern: %s', file_pattern)
+        logging.info('CSV output path: %s', output_csv_path)
+        logging.info('Log file path: %s', log_file_path)
 
-    # Initialize and run log processor
-    log_processor = LogProcessor(log_directories, file_pattern)
-    log_processor.process_log_files()
-    log_processor.save_to_csv(csv_path)
+        log_processor = LogProcessor(log_directories, file_pattern)
+        log_processor.process_log_files()
+        log_processor.save_to_csv(output_csv_path)
 
-    # Ensure output file is written and accessible
-    if os.path.exists(csv_path):
-        logging.info('CSV file created successfully.')
-    else:
-        logging.error('Failed to create CSV file.')
+        if os.path.exists(output_csv_path):
+            print(f"CSV file created successfully at {output_csv_path}.")
+            logging.info('CSV file created successfully.')
+        else:
+            print(f"Failed to create CSV file at {output_csv_path}.")
+            logging.error('Failed to create CSV file.')
 
 if __name__ == '__main__':
     main()
