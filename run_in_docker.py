@@ -116,56 +116,47 @@ def main():
     """
     parser = argparse.ArgumentParser(description="Log User Extractor")
     parser.add_argument('--config', help='Path to the configuration file', default='config.ini')
+    parser.add_argument('--log_directories', help='Comma-separated list of directories to scan for log files')
+    parser.add_argument('--file_pattern', help='Pattern to match log files')
+    parser.add_argument('--output_csv', help='Path to the output CSV file')
+    parser.add_argument('--log_file', help='Path to the log file')
+    parser.add_argument('--log_level', help='Logging level')
 
     args = parser.parse_args()
-    config_file = args.config
 
-    while True:
-        print("\nOptions:")
-        print("1. Read from config")
-        print("2. Enter new directories, file pattern, output CSV path, and log file path")
-        print("3. Exit")
-        choice = input("Choose an option: ")
+    if args.log_directories and args.file_pattern and args.output_csv and args.log_file and args.log_level:
+        log_directories = args.log_directories.split(',')
+        file_pattern = args.file_pattern
+        output_csv_path = args.output_csv
+        log_file_path = args.log_file
+        log_level = args.log_level
+        print("Configuration set from command-line arguments.")
+    else:
+        config = load_config(args.config)
+        log_directories = config['Paths']['log_directories'].split(',')
+        file_pattern = config['Settings']['file_pattern']
+        output_csv_path = config['Paths']['output_csv']
+        log_file_path = config['Logging']['log_filename']
+        log_level = config['Logging']['log_level']
+        print(f"Configuration loaded from {args.config}.")
 
-        if choice == '1':
-            config = load_config(config_file)
-            log_directories = config['Paths']['log_directories'].split(',')
-            file_pattern = config['Settings']['file_pattern']
-            output_csv_path = config['Paths']['output_csv']
-            log_file_path = config['Logging']['log_filename']
-            log_level = config['Logging']['log_level']
-            print(f"Configuration loaded from {config_file}.")
-        elif choice == '2':
-            log_directories = input("Enter directories (comma-separated): ").split(',')
-            file_pattern = input("Enter file pattern: ")
-            output_csv_path = input("Enter output CSV path: ")
-            log_file_path = input("Enter log file path: ")
-            log_level = input("Enter log level: ")
-            print("Configuration set.")
-        elif choice == '3':
-            print("Exiting...")
-            break
-        else:
-            print("Invalid choice. Please select a valid option.")
-            continue
+    setup_logging(log_file_path, log_level)
 
-        setup_logging(log_file_path, log_level)
+    logging.info('Log directories: %s', log_directories)
+    logging.info('File pattern: %s', file_pattern)
+    logging.info('CSV output path: %s', output_csv_path)
+    logging.info('Log file path: %s', log_file_path)
 
-        logging.info('Log directories: %s', log_directories)
-        logging.info('File pattern: %s', file_pattern)
-        logging.info('CSV output path: %s', output_csv_path)
-        logging.info('Log file path: %s', log_file_path)
+    log_processor = LogProcessor(log_directories, file_pattern)
+    log_processor.process_log_files()
+    log_processor.save_to_csv(output_csv_path)
 
-        log_processor = LogProcessor(log_directories, file_pattern)
-        log_processor.process_log_files()
-        log_processor.save_to_csv(output_csv_path)
-
-        if os.path.exists(output_csv_path):
-            print(f"CSV file created successfully at {output_csv_path}.")
-            logging.info('CSV file created successfully.')
-        else:
-            print(f"Failed to create CSV file at {output_csv_path}.")
-            logging.error('Failed to create CSV file.')
+    if os.path.exists(output_csv_path):
+        print(f"CSV file created successfully at {output_csv_path}.")
+        logging.info('CSV file created successfully.')
+    else:
+        print(f"Failed to create CSV file at {output_csv_path}.")
+        logging.error('Failed to create CSV file.')
 
 if __name__ == '__main__':
     main()
