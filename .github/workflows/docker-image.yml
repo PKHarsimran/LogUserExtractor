@@ -35,6 +35,6 @@ jobs:
       - name: Run Docker container
         run: |
           docker run --rm -v ${{ github.workspace }}:/app ${{ secrets.DOCKER_USERNAME }}/log_user_extractor:latest
-          cat /app/output/extracted_user_codes.csv
+          cat extracted_user_codes.csv
         env:
           GITHUB_WORKSPACE: ${{ github.workspace }}
